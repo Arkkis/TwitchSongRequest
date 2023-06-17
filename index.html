@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="module" src="js.js"></script>
+        <meta charset="UTF-8" />
+        <style>
+            body {
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
+
+            #support {
+                display: none;
+            }
+
+            .link {
+                cursor: pointer;
+                padding: 15px;
+                border-radius: 20px;
+                background-color: rgba(150, 223, 115, 0.5);
+                color: white;
+                text-shadow: 2px 2px 2px darkgray;
+            }
+        </style>
+        <script>
+            let redirectUrl = location.href.substring(0, location.href.lastIndexOf('/'));
+
+            function TwitchLogin() {
+                const scopes = 'channel:read:redemptions';
+                location.href = 'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mzjhkpny9ltq6j95kebqo6qiq16ald&redirect_uri=' + redirectUrl + '/&scope=' + scopes + '&state=c3ab8aa609ea11e793ae92361f002671';
+            }
+        </script>
+    </head>
+    <body style="padding: 0px; overflow: hidden;">
+        <div id="links" style="display: inline;">
+            <a class="link" id="twitch_login" style="text-decoration: none;" onclick="TwitchLogin()">Connect with Twitch</a>
+            <a class="link" id="spotify_login" style="text-decoration: none;" onclick="SpotifyLogin()">Connect with Spotify</a>
+            <a class="link" id="support" style="text-decoration: none;" href="https://www.twitch.tv/subs/arkkis">Support</a>
+            <a class="link" style="text-decoration: none;" onclick="ResetApp();">Reset</a>
+        </div>
+    </body>
+    <script src="common.js"></script>
+</html>
