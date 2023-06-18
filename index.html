@@ -25,7 +25,7 @@
             let redirectUrl = location.href.substring(0, location.href.lastIndexOf('/'));
 
             function TwitchLogin() {
-                const scopes = 'channel:read:redemptions';
+                const scopes = 'channel:read:redemptions+channel:manage:redemptions+chat:read+chat:edit';
                 location.href = 'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mzjhkpny9ltq6j95kebqo6qiq16ald&redirect_uri=' + redirectUrl + '/&scope=' + scopes + '&state=c3ab8aa609ea11e793ae92361f002671';
             }
         </script>
@@ -38,5 +38,6 @@
             <a class="link" style="text-decoration: none;" onclick="ResetApp();">Reset</a>
         </div>
     </body>
+    <script src="tmi.min.js"></script>
     <script src="common.js"></script>
 </html>

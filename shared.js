@@ -32,14 +32,20 @@ export function SetToken(newToken) {
   localStorage.setItem("songRequest_Token", newToken);
 }
 
+export function SetChannel(channelName) {
+  localStorage.setItem("songRequest_Twitch_ChannelName", channelName);
+}
+
+export function GetChannel() {
+  return localStorage.getItem("songRequest_Twitch_ChannelName");
+}
+
 export function GetAppUrl() {
   return localStorage.getItem("songRequest_appUrl");
 }
 
 export function SetAppUrl(newUrl) {
-  var index = newUrl.indexOf("?");
-  var strippedUrl = index === -1 ? newUrl : newUrl.substring(0, index);
-  console.log(strippedUrl);
-
+  var fullUrl = new URL(newUrl);
+  var strippedUrl = fullUrl.origin + fullUrl.pathname;
   localStorage.setItem("songRequest_appUrl", strippedUrl);
 }

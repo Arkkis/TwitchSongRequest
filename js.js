@@ -1,32 +1,16 @@
 import { SubscribeRedeem } from "./subscriptions.js";
-import { SetSessionId, SetUserInfo, SetAppUrl } from "./shared.js";
+import { SetSessionId, SetUserInfo, SetAppUrl, GetToken } from "./shared.js";
 import { FetchUserInfo, SubscribeTopic } from "./api.js";
 import { OauthRedirectHandler, SpotifyOauthRedirectHandler } from "./oauth.js";
-import { TriggerReward } from "./rewards.js";
+import { CreateCustomReward, TriggerReward } from "./rewards.js";
+import { ConnectChat } from "./twitchchat.js";
 
+Loop();
 setInterval(async () => {
-  let accessToken = localStorage.getItem("songRequest_spotify_access_token");
-
-  const response = await fetch(`https://api.spotify.com/v1/me`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  });
-
-  if (!response.ok) {
-    SpotifyLogin();
-  }
-
-  const success = await SetUserInfo(FetchUserInfo());
-
-  if (!success) {
-    TwitchLogin();
-  }
+  await Loop();
 }, 30000);
 
 SetAppUrl(window.location.href);
-OauthRedirectHandler();
-SpotifyOauthRedirectHandler();
 
 if (localStorage.getItem("songRequest_rewardName") === null) {
   throw new Error("Reward name not specified");
@@ -106,3 +90,10 @@ socket.onclose = function (event) {
 socket.onerror = function (error) {
   console.error("WebSocket error: ", error);
 };
+
+async function Loop() {
+  await OauthRedirectHandler();
+  await SpotifyOauthRedirectHandler();
+  ConnectChat();
+  await CreateCustomReward();
+}

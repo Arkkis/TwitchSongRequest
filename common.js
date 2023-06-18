@@ -4,12 +4,12 @@ if (params.has("rewardname")) {
   let rewardName = params.get("rewardname");
 
   if (rewardName.length <= 0) {
-    throw new Error("Too short reward name");
+    console.error("Too short reward name");
   } else {
     localStorage.setItem("songRequest_rewardName", rewardName);
   }
 } else {
-  throw new Error("Reward name not specified");
+  console.error("Reward name not specified");
 }
 
 if (params.has("controls")) {
@@ -24,10 +24,9 @@ if (params.has("controls")) {
 
 function SpotifyLogin() {
   const clientId = "37372faf5818414abd5354d6e0391c57";
-  const redirectUri = "https://arkkis.com/twitchsongrequest";
+  const redirectUri = localStorage.getItem("songRequest_appUrl");
 
   localStorage.setItem("songRequest_spotify_clientId", clientId);
-  localStorage.setItem("songRequest_spotify_redirecturi", redirectUri);
 
   let codeVerifier = generateRandomString(128);
 
@@ -45,6 +44,7 @@ function SpotifyLogin() {
       state: state,
       code_challenge_method: "S256",
       code_challenge: codeChallenge,
+      show_dialog: false,
     });
 
     window.location = "https://accounts.spotify.com/authorize?" + args;
@@ -56,9 +56,10 @@ function ResetApp() {
   localStorage.removeItem("songRequest_appUrl");
   localStorage.removeItem("songRequest_rewardName");
   localStorage.removeItem("songRequest_spotify_access_token");
-  localStorage.removeItem("songRequest_spotify_redirecturi");
+  localStorage.removeItem("songRequest_spotify_refresh_token");
   localStorage.removeItem("songRequest_spotify_clientId");
   localStorage.removeItem("songRequest_code_verifier");
+  localStorage.removeItem("songRequest_Twitch_ChannelName");
   location.reload();
 }
 
