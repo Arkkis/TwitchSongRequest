@@ -8,3 +8,4 @@ Song request bot used with Twitch
 - Reward is created in your channel by bot
 - When user redeems the reward with song name, it will be added to your Spotify queue as next song
 - 
+-
